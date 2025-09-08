@@ -43,8 +43,8 @@ logging.info(f"Computed y[0]={y[0]:.2f}, y[{time_increments//2}]={y[time_increme
 
 # Plot x vs. y (trajectory)
 plt.plot(x, y, "k.")
-plt.xlabel("Time")
-plt.ylabel("Height")
+plt.xlabel("X (m)")
+plt.ylabel("Y (m)")
 plt.title("Projectile Trajectory")
 plt.grid(True)
 plt.savefig("projectile.png")
