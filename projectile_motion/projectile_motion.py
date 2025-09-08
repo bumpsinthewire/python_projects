@@ -7,7 +7,7 @@ import argparse
 parser = argparse.ArgumentParser(description="Simulate projectile motion")
 parser.add_argument('--velocity', type=float, default=20, help="Initial velocity (m/s)")
 parser.add_argument('--angle', type=float, default=45, help="Launch angle (degrees)")
-parser.add_argument('--timeplots', type=int, default=50 help="Amount of time increments")
+parser.add_argument('--timeplots', type=int, default=50, help="Amount of time increments")
 args = parser.parse_args()
 
 # Set up logging
