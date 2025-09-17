@@ -52,7 +52,7 @@ num_points = args.increments
 start_time = args.start
 end_time = args.end
 g = args.gravity
-logging.info(f"Parsed {len(v0_array)} velocities: {v0_list} m/s, time increments from {start_time} to {end_time}: {num_points}, g: {args.gravity} m/s**2)")
+logging.info(f"Parsed {len(v0_array)} velocities: {v0_list} m/s, time increments from {start_time} to {end_time}: {num_points}, g: {args.gravity} m/s**2")
 
 # Free fall equation
 def free_fall(t, v0, g):
@@ -82,8 +82,9 @@ try:
     y_np = y.get()
 
     # Set up plotting
+    colors = ['b-', 'r-', 'g-', 'c-']
     for i in range(len(v0_array)):
-        plt.plot(t_np, y_np[:, i], "b-", label=f"v0={v0_array[i].get():.1f} m/s")
+        plt.plot(t_np, y_np[:, i], colors[i % len(colors)], label=f"v0={v0_array[i].get():.1f} m/s")
     plt.legend()
     plt.xlabel("Time")
     plt.ylabel("Height")

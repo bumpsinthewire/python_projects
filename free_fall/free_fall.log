@@ -90,3 +90,24 @@ INFO:root:Time array created: 1000000 points from 0.0 to 10.0 s
 INFO:root:Saved plot: freefall.png
 INFO:root:Overall compute time: 3.7563 seconds.
 INFO:root:Compute time: 0.0066 seconds.
+INFO:root:Parsed 3 velocities: [20.0, 30.0, 40.0] m/s, time increments from 0 to 10: 100, g: 9.81 m/s**2
+INFO:root:Time array created: 100 points from 0.0 to 10.0 s
+INFO:root:Saved plot: freefall.png
+INFO:root:Plotted 3 trajectories
+INFO:root:Saved results to free_fall_results.txt
+INFO:root:Overall compute time: 4.7405 seconds.
+INFO:root:Compute time: 0.0003 seconds.
+INFO:root:Parsed 2 velocities: [20.0, 30.0] m/s, time increments from 0 to 10: 100, g: 3.71 m/s**2
+INFO:root:Time array created: 100 points from 0.0 to 10.0 s
+INFO:root:Saved plot: freefall.png
+INFO:root:Plotted 2 trajectories
+INFO:root:Saved results to free_fall_results.txt
+INFO:root:Overall compute time: 3.1827 seconds.
+INFO:root:Compute time: 0.0001 seconds.
+INFO:root:Parsed 3 velocities: [20.0, 30.0, 40.0] m/s, time increments from 0 to 10: 1000000, g: 9.81 m/s**2
+INFO:root:Time array created: 1000000 points from 0.0 to 10.0 s
+INFO:root:Saved plot: freefall.png
+INFO:root:Plotted 3 trajectories
+INFO:root:Saved results to free_fall_results.txt
+INFO:root:Overall compute time: 7.6445 seconds.
+INFO:root:Compute time: 0.0199 seconds.

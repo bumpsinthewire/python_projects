@@ -6,7 +6,7 @@ import argparse
 
 # Set up parsing
 parser = argparse.ArgumentParser(description="Simulate free fall")
-parser.add_argument('--velocity', '-v', type=float, default=20, help="Initial velocity (m/s)")
+parser.add_argument('--velocity', '-v', type=float, nargs='+', default=[20], help="Initial velocity (m/s), space-separated for multiple")
 parser.add_argument('--increments', '-i', type=int, default=50, help="Amount of time increments")
 parser.add_argument('--gravity', '-g', type=float, default=9.81, help="Gravity (m/s**2)")
 parser.add_argument('--start', '-s', type=int, default=0, help="Starting time")
@@ -18,9 +18,10 @@ logging.basicConfig(filename='free_fall.log', level=logging.INFO)
 
 # Parsing validation
 try:
-    if not args.velocity >= 0:
-        logging.error(f"Invalid velocity: {args.velocity}. Must be 0 or above")
-        raise ValueError("Velocity must be 0 or above")
+    invalid_vs = [v for v in args.velocity if v < 0]
+    if invalid_vs:
+        logging.error(f"Invalid velocities: {invalid_vs}. Must be 0 or above")
+        raise ValueError("All velocities must be 0 or above")
     if not args.increments > 0:
         logging.error(f"Invalid time: {args.increments}. Must be greater than 0")
         raise ValueError("Time increments must be greater than 0")
@@ -44,16 +45,18 @@ except Exception as e:
     raise
 
 # Inputs
-v0 = args.velocity
+v0_list = args.velocity
+v0_array = np.array(v0_list)
 num_points = args.increments
 start_time = args.start
 end_time = args.end
 g = args.gravity
-logging.info(f"Parsed velocity: {v0} m/s, time increments from {start_time} to {end_time}: {num_points}, g: {args.gravity} m/s**2")
+logging.info(f"Parsed {len(v0_array)} velocities: {v0_list} m/s, time increments from {start_time} to {end_time}: {num_points}, g: {args.gravity} m/s**2")
 
 # Free fall equation
 def free_fall(t, v0, g):
-    y = -1/2 * g * t**2 + v0 * t
+    t_reshaped = t[:, None]
+    y = -0.5 * g * t_reshaped**2 + v0 * t_reshaped
     return y
 
 # Start overall logging time
@@ -68,20 +71,28 @@ try:
     logging.info(f"Time array created: {num_points} points from {t[0]:.1f} to {t[-1]:.1f} s")
 
     # Call the free_fall function
-    y = free_fall(t, v0, g)
+    y = free_fall(t, v0_array, g)
 
     # End compute time 
     compute_end_time = time.time()
 
     # Set up plotting
-    plt.plot(t, y, "b-")
+    for i in range(len(v0_array)):
+             plt.plot(t, y[:, i], "b-", label=f"v0={v0_array[i]:.1f} m/s")
+    plt.legend()
     plt.xlabel("Time")
     plt.ylabel("Height")
-    plt.title("Free fall")
+    plt.title("Free fall trajectories (NumPy)")
     plt.grid(True)
     plt.savefig("freefall.png")
     plt.show()
     logging.info("Saved plot: freefall.png")
+    logging.info(f"Plotted {len(v0_array)} trajectories")
+
+    # Save results to a file
+    with open('free_fall_results.txt', 'w') as f:
+        np.savetxt(f, np.column_stack([t] + [y[:, j] for j in range(y.shape[1])]), header='Time Positions_v' + '_v'.join([f"{v:.1f}" for v in v0_list]), fmt='%.4f')
+    logging.info("Saved results to free_fall_results.txt")
 except RuntimeError as e:
     logging.error(f"Scale test failed: {e}")
     raise
