@@ -8,6 +8,7 @@ import argparse
 parser = argparse.ArgumentParser(description="Simulate free fall")
 parser.add_argument('--velocity', '-v', type=float, default=20, help="Initial velocity (m/s)")
 parser.add_argument('--increments', '-i', type=int, default=50, help="Amount of time increments")
+parser.add_argument('--gravity', '-g', type=float, default=9.81, help="Gravity (m/s**2)")
 parser.add_argument('--start', '-s', type=int, default=0, help="Starting time")
 parser.add_argument('--end', '-e', type=int, default=10, help="Ending time")
 args = parser.parse_args()
@@ -23,6 +24,9 @@ try:
     if not args.increments > 0:
         logging.error(f"Invalid time: {args.increments}. Must be greater than 0")
         raise ValueError("Time increments must be greater than 0")
+    if not args.gravity > 0:
+        logging.error(f"Invalid gravity: {args.gravity}. Must be greater than 0")
+        raise ValueError("Gravity must be greater than 0")
     if not args.start < args.end:
         logging.error(f"Invalid starting time: {args.start}. Must be less than ending time")
         raise ValueError("Starting time must be less than ending time")
@@ -44,8 +48,8 @@ v0 = args.velocity
 num_points = args.increments
 start_time = args.start
 end_time = args.end
-g = 9.81
-logging.info(f"Parsed velocity: {v0} m/s, time increments from {start_time} to {end_time}: {num_points}")
+g = args.gravity
+logging.info(f"Parsed velocity: {v0} m/s, time increments from {start_time} to {end_time}: {num_points}, g: {args.gravity} m/s**2")
 
 # Free fall equation
 def free_fall(t, v0, g):
@@ -78,6 +82,9 @@ try:
     plt.savefig("freefall.png")
     plt.show()
     logging.info("Saved plot: freefall.png")
+except RuntimeError as e:
+    logging.error(f"Scale test failed: {e}")
+    raise
 except ValueError as e:
     logging.error(f"Value error in simulation: {e}")
     raise

@@ -85,3 +85,8 @@ INFO:root:Overall compute time: 3.0424 seconds.
 INFO:root:Compute time: 0.0003 seconds.
 ERROR:root:Invalid velocity: -5.0. Must be 0 or above
 ERROR:root:Value error in input validation: Velocity must be 0 or above
+INFO:root:Parsed velocity: 20.0 m/s, time increments from 0 to 10: 1000000, g: 9.81 m/s**2
+INFO:root:Time array created: 1000000 points from 0.0 to 10.0 s
+INFO:root:Saved plot: freefall.png
+INFO:root:Overall compute time: 3.7563 seconds.
+INFO:root:Compute time: 0.0066 seconds.
